@@ -1,0 +1,19 @@
+# patient data — never commit
+data/*.xlsx
+data/*.xls
+data/*.csv
+*.xlsx
+*.xls
+
+# run outputs
+outputs/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+
+# OS / editor / notebook leftovers
+.DS_Store
+.ipynb_checkpoints/
+*.ipynb
