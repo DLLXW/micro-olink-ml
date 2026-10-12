@@ -18,8 +18,10 @@ Methodology
 - The top-K analysis uses nested feature selection: within each outer fold the
   top-K features are re-selected on that fold's training data only, so no
   information from evaluation samples informs feature choice.
-- Model hyperparameters are fixed a priori (no evaluation-driven tuning);
-  model names always match the underlying estimators.
+- Model hyperparameters are fixed a priori (no evaluation-driven tuning).
+- Display names identify the algorithm family: the `GBDT` entry is the
+  scikit-learn GradientBoostingClassifier (plain gradient-boosted decision
+  trees).
 
 Usage
 -----
@@ -51,12 +53,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import (roc_curve, roc_auc_score, auc,
                              precision_recall_curve, average_precision_score,
                              confusion_matrix, f1_score, precision_score, recall_score)
 from lightgbm import LGBMClassifier
-from xgboost import XGBClassifier
 
 warnings.filterwarnings("ignore")
 
@@ -90,7 +91,7 @@ MODEL_COLORS = OrderedDict([
     ("Naive Bayes",         "#2ca02c"),
     ("MLP",                 "#d62728"),
     ("Random Forest",       "#9467bd"),
-    ("XGBoost",             "#8c564b"),
+    ("GBDT",                "#8c564b"),
     ("LightGBM",            "#e377c2"),
 ])
 
@@ -152,8 +153,8 @@ def make_models():
         ("MLP",                 wrap(MLPClassifier(hidden_layer_sizes=(32,), alpha=1.0,
                                                     max_iter=5000, random_state=RANDOM_STATE))),
         ("Random Forest",       wrap(RandomForestClassifier(n_estimators=500, random_state=RANDOM_STATE))),
-        ("XGBoost",             wrap(XGBClassifier(max_depth=3, learning_rate=0.1, n_estimators=200,
-                                                   eval_metric="logloss", random_state=RANDOM_STATE))),
+        ("GBDT",                wrap(GradientBoostingClassifier(n_estimators=200, learning_rate=0.1,
+                                                        max_depth=3, random_state=RANDOM_STATE))),
         ("LightGBM",            wrap(LGBMClassifier(max_depth=4, num_leaves=15, learning_rate=0.05,
                                                     n_estimators=300, random_state=RANDOM_STATE,
                                                     verbose=-1))),
@@ -590,7 +591,7 @@ def main():
         f.write("CV: StratifiedKFold(n_splits={}, shuffle=True)\n".format(N_SPLITS))
         f.write("samples: {} (BPN={} / MPN={}), features: {}\n".format(len(y), n_neg, n_pos, len(features)))
         f.write("inputs: {} + {}\n".format(MACRO_FILENAME, PROTEIN_FILENAME))
-        f.write("scikit-learn {}, lightgbm, xgboost, shap\n".format(sklearn.__version__))
+        f.write("scikit-learn {}, lightgbm, shap\n".format(sklearn.__version__))
         f.write("LightGBM holdout (single 80/20 split, indicative) AUC = {:.3f}\n".format(shap_holdout_auc))
     print("Done. All outputs in:", out_dir)
 

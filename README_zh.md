@@ -10,7 +10,7 @@
 - **无泄漏**:缺失值插补(median)与 `RobustScaler` 置于 sklearn `Pipeline` 内,只在训练折上拟合。
 - **诚实的不确定性**:AUC 95%CI 由对 OOF 预测的 bootstrap(2000 次,2.5/97.5 分位)计算,ROC 置信带同理;任何 CI 都不由人工指定。
 - **嵌套式 Top-K 特征分析**:每个外折内部仅用该折训练数据重新做 LightGBM gain 重要度排序并取 top-K,评估样本不参与特征选择;top-K 模型与全特征模型在同一协议下对比。
-- **模型与名称一一对应**:Logistic Regression、SVM、Naive Bayes、MLP、Random Forest、XGBoost、LightGBM;超参数事先固定,不做任何按结果挑选的搜索。
+- **模型与名称一一对应**:Logistic Regression、SVM、Naive Bayes、MLP、Random Forest、GBDT(scikit-learn 的 GradientBoostingClassifier)、LightGBM;超参数事先固定,不做任何按结果挑选的搜索。
 - **统计检验**:top 特征做 Mann–Whitney U 检验 + Benjamini–Hochberg FDR 校正。
 - **可解释性**:跨折平均的 LightGBM gain 重要度;SHAP 基于单一 80/20 分层划分,结果仅作参考并明确标注。
 
@@ -28,7 +28,7 @@ micro-olink-ml/
 
 ## 环境要求
 
-Python 3.7+(实测:scikit-learn 1.0.2、LightGBM 3.2.1、XGBoost 1.5.0、SHAP 0.42.1)。
+Python 3.7+(实测:scikit-learn 1.0.2、LightGBM 3.2.1、SHAP 0.42.1)。
 
 ```bash
 pip install -r requirements.txt

@@ -24,7 +24,7 @@ evaluation protocol.
   evaluation samples never inform feature selection. The K-feature model is
   compared against the all-features model under the same protocol.
 - **Real models, honest names**: Logistic Regression, SVM, Naive Bayes, MLP,
-  Random Forest, XGBoost, LightGBM — estimator and display name always match.
+  Random Forest, GBDT (scikit-learn GradientBoostingClassifier), LightGBM.
   Hyperparameters are fixed a priori; no per-model search is performed.
 - **Statistics**: Mann–Whitney U tests for top features with
   Benjamini–Hochberg FDR correction.
@@ -46,7 +46,7 @@ micro-olink-ml/
 ## Requirements
 
 Python 3.7+ (tested on 3.7 with scikit-learn 1.0.2, LightGBM 3.2.1,
-XGBoost 1.5.0, SHAP 0.42.1).
+SHAP 0.42.1).
 
 ```bash
 pip install -r requirements.txt
